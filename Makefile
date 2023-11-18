@@ -26,6 +26,9 @@ guard-%:
 	@#$(or ${$*}, $(error $* is not set))
 
 ## Call entrypoint
+prepare-dataset: up
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/prepare_dataset.py
+
 process-data: up
 	$(DOCKER_COMPOSE_EXEC) python ./cybulde/process_data.py
 

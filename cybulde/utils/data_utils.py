@@ -59,9 +59,7 @@ def get_raw_data_with_version(
 ) -> None:
     rmtree(data_local_save_dir, ignore_errors=True)
     print('5')
-    command = get_cmd_to_get_raw_data(
-        version, data_local_save_dir, dvc_remote_repo, dvc_data_folder, github_user_name, github_access_token,
-    )
+    command = get_cmd_to_get_raw_data(version, data_local_save_dir, dvc_remote_repo, dvc_data_folder, github_user_name, github_access_token)
     print("6")
     run_shell_command(command)
     print("7")

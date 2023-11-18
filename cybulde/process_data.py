@@ -24,4 +24,4 @@ def process_data(config: Config) -> None:
 
 
 if __name__ == "__main__":
-    process_data()  # type: ignore
+    process_data()
