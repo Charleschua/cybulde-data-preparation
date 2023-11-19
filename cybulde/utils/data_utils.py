@@ -40,26 +40,24 @@ def get_cmd_to_get_raw_data(
         shell command to download the raw data from dvc store
     """
     without_https = dvc_remote_repo.replace("https://", "")
-    print("1")
     dvc_remote_repo = f"https://{github_user_name}:{github_access_token}@{without_https}"
-    print("2")
+    print("1")
     command = f"dvc get {dvc_remote_repo} {dvc_data_folder} --rev {version} -o {data_local_save_dir}"
-    print("3")
+    print("2")
     return command
-    print("4")
-
-
+    
 def get_raw_data_with_version(
     version: str,
     data_local_save_dir: str,
     dvc_remote_repo: str,
     dvc_data_folder: str,
     github_user_name: str,
-    github_access_token: str,
+    github_access_token: str
 ) -> None:
     rmtree(data_local_save_dir, ignore_errors=True)
-    print('5')
+    print("3")
     command = get_cmd_to_get_raw_data(version, data_local_save_dir, dvc_remote_repo, dvc_data_folder, github_user_name, github_access_token)
-    print("6")
+    print("4")
     run_shell_command(command)
-    print("7")
+    print("5")
+    

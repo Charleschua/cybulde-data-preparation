@@ -6,9 +6,9 @@ from cybulde.utils.data_utils import get_raw_data_with_version
 
 @get_config(config_path="../configs", config_name="config")
 def process_data(config: Config) -> None:    
-    version = "v1"
+    version = "v10"
     data_local_save_dir = "./data/raw"
-    dvc_remote_repo = "https://github.com/Charleschua/cybulde-data-preparation.git"
+    dvc_remote_repo = "https://github.com/Charleschua/cyberbully-data.git"
     dvc_data_folder = "data/raw"
     github_user_name = "Charleschua"
     github_access_token = access_secret_version("cyberbully-data-preparation", "cyberbully-data-github-access-token")
