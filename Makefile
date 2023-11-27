@@ -19,18 +19,45 @@ DIRS_TO_VALIDATE = cybulde
 DOCKER_COMPOSE_RUN = $(DOCKER_COMPOSE_COMMAND) run --rm $(SERVICE_NAME)
 DOCKER_COMPOSE_EXEC = $(DOCKER_COMPOSE_COMMAND) exec $(SERVICE_NAME)
 
+LOCAL_DOCKER_IMAGE_NAME = cyberbully-data-preparation
+GCP_DOCKER_IMAGE_NAME = asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation
+GCP_DOCKER_IMAGE_TAG := $(strip $(shell uuidgen))
+
 export
 
 # Returns true if the stem is a non-empty environment variable, or else raises an error.
 guard-%:
 	@#$(or ${$*}, $(error $* is not set))
 
+
+## Generate final config. CONFIG_NAME=<config_name> has to be providded. For overrides use: OVERRIDES=<overrides>
+generate-final-config: up guard-CONFIG_NAME
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/generate_final_config.py --config-name $${CONFIG_NAME} --overrides  docker_image_name=$(GCP_DOCKER_IMAGE_NAME) docker_image_tag=$(GCP_DOCKER_IMAGE_TAG) $${OVERRIDES}
+
+## Generate final data processing config. For overrides use: OVERRIDES=<overrides>
+generate-final-data-processing-config: up
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/generate_final_config.py --config-name data_processing_config --overrides docker_image_name=$(GCP_DOCKER_IMAGE_NAME) docker_image_tag=$(GCP_DOCKER_IMAGE_TAG) $${OVERRIDES}
+
+## Processes raw data
+process-data: generate-final-data-processing-config push
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/process_data.py
+
+## Processes raw data
+local-process-data: generate-final-data-processing-config
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/process_data.py
+
+
 ## Call entrypoint
 prepare-dataset: up
 	$(DOCKER_COMPOSE_EXEC) python ./cybulde/prepare_dataset.py
 
-process-data: up
-	$(DOCKER_COMPOSE_EXEC) python ./cybulde/process_data.py
+
+
+## Push docker image to GCP artifact registery
+push: build
+	gcloud auth configure-docker --quiet asia-southeast1-docker.pkg.dev
+	docker tag $(LOCAL_DOCKER_IMAGE_NAME):latest "$(GCP_DOCKER_IMAGE_NAME):$(GCP_DOCKER_IMAGE_TAG)"
+	docker push "$(GCP_DOCKER_IMAGE_NAME):$(GCP_DOCKER_IMAGE_TAG)"
 
 ## Starts jupyter lab
 notebook: up

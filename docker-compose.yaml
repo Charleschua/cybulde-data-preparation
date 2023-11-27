@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app:
     user: "${USER_ID:-1000}"
-    hostname: "${HOST_NAME:-cyberbully-data-preparation}"
+    hostname: "${HOST_NAME:-emkademy}"
     image: cybulde-data-preparation
     container_name: cybulde-data-preparation-container
     build:
@@ -16,7 +16,7 @@ services:
       - ./:/app/
       - ~/.config/gcloud/:/home/${USER_NAME}/.config/gcloud
     ports:
-      - 8080:8080
+      - 8888:8888
 
     # deploy:
     #   resources:

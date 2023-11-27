@@ -7,7 +7,7 @@ ENV HOME=/home/${USER_NAME} \
 ENV \
   PYTHONUNBUFFERED=1 \
   DEBIAN_FRONTEND=noninteractive \
-  TZ=Europe/Warsaw \
+  TZ=Asia/Singapore \
   PATH="/usr/local/gcloud/google-cloud-sdk/bin:${HOME}/.local/bin:${VIRTUAL_ENV}/bin:${PATH}" \
   PYTHONPATH="/app:${PYTHONPATH}" \
   BUILD_POETRY_LOCK="${HOME}/poetry.lock.build"
@@ -44,10 +44,11 @@ RUN poetry config virtualenvs.create false \
 USER root
 COPY ./docker/scripts/* /
 RUN chown -R ${USER_NAME} /*.sh && chmod +x /*.sh
+RUN chown -R ${USER_NAME} ${HOME}/.local
 USER ${USER_NAME}
 
 RUN git config --global user.email "charleschua19@gmail.com" \
-    && git config --global user.name "Charles Chua"
+    && git config --global user.name "Charleschua"
 
 
 RUN python3.10 -m nltk.downloader stopwords && python3.10 -m nltk.downloader punkt
