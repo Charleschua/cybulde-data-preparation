@@ -19,7 +19,7 @@ DIRS_TO_VALIDATE = cybulde
 DOCKER_COMPOSE_RUN = $(DOCKER_COMPOSE_COMMAND) run --rm $(SERVICE_NAME)
 DOCKER_COMPOSE_EXEC = $(DOCKER_COMPOSE_COMMAND) exec $(SERVICE_NAME)
 
-LOCAL_DOCKER_IMAGE_NAME = cyberbully-data-preparation
+LOCAL_DOCKER_IMAGE_NAME = cybulde-data-preparation
 GCP_DOCKER_IMAGE_NAME = asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation
 GCP_DOCKER_IMAGE_TAG := $(strip $(shell uuidgen))
 

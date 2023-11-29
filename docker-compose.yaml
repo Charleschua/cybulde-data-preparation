@@ -6,6 +6,8 @@ services:
     hostname: "${HOST_NAME:-emkademy}"
     image: cybulde-data-preparation
     container_name: cybulde-data-preparation-container
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=./creds/cyberbully-data-preparation-a99b05ae3eff.json
     build:
       context: .
       dockerfile: ./docker/Dockerfile
