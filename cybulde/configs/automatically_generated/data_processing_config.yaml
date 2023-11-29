@@ -75,7 +75,7 @@ dask_cluster:
   network_projectid: cyberbully-data-preparation
   machine_type: n1-standard-1
   source_image: projects/ubuntu-os-cloud/global/images/ubuntu-minimal-2004-focal-v20220203
-  docker_image: asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation:90cf5eae-4d26-4296-8939-273e7850fb92
+  docker_image: asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation:69c6b49e-8405-409b-a6cb-c5d058739368
   docker_args: '--log-driver=gcplogs
 
     '
@@ -100,4 +100,4 @@ dask_cluster:
 processed_data_save_dir: gs://cyberbully-bucket-3/data/processed/default_run
 run_tag: default_run
 docker_image_name: asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation
-docker_image_tag: 90cf5eae-4d26-4296-8939-273e7850fb92
+docker_image_tag: 69c6b49e-8405-409b-a6cb-c5d058739368
