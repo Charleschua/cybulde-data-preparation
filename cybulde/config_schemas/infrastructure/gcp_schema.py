@@ -5,8 +5,8 @@ from pydantic.dataclasses import dataclass
 @dataclass
 class GCPConfig:
     project_id: str = "cyberbully-data-preparation"
-    zone: str =  "asia-southeast1-a"
-    network: str =  "default"
+    zone: str = "asia-southeast1-a"
+    network: str = "default"
 
 
 def setup_config() -> None:

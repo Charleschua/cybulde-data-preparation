@@ -1,0 +1,40 @@
+infrastructure:
+  project_id: cyberbully-data-preparation
+  zone: asia-southeast1-a
+  network: default
+data_parquet_path: gs://cyberbully-bucket-3/data/processed/rebalanced_splits/train.parquet
+text_column_name: cleaned_text
+tokenizer:
+  _target_: cybulde.tokenization.tokenizers.HuggingFaceTokenizer
+  pre_tokenizer:
+    _target_: tokenizers.pre_tokenizers.Whitespace
+  model:
+    _target_: tokenizers.models.BPE
+    vocab: null
+    merges: null
+    cache_capacity: 10000
+    dropout: null
+    unk_token: '[UNK]'
+    fuse_unk: false
+  trainer:
+    _target_: tokenizers.trainers.BpeTrainer
+    vocab_size: 30000
+    show_progress: true
+    min_frequency: 0
+    special_tokens:
+    - '[UNK]'
+    - '[CLS]'
+    - '[SEP]'
+    - '[PAD]'
+    - '[MASK]'
+    initial_alphabet: []
+  normalizer: null
+  decoder: null
+  post_processor: null
+  unk_token: '[UNK]'
+  cls_token: '[CLS]'
+  sep_token: '[SEP]'
+  pad_token: '[PAD]'
+  mask_token: '[MASK]'
+docker_image_name: asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation
+docker_image_tag: edc10669-88a7-461c-979e-7b7d3796781e

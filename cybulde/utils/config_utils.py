@@ -1,16 +1,13 @@
 import argparse
 import importlib
-
 import logging
 import logging.config
-
 import os
 import pickle
 
 from dataclasses import asdict
 from functools import partial
 from io import BytesIO, StringIO
-
 from typing import Any, Optional
 
 import hydra
@@ -20,8 +17,7 @@ from hydra import compose, initialize
 from hydra.types import TaskFunction
 from omegaconf import DictConfig, OmegaConf
 
-from cybulde.config_schemas import data_processing_config_schema
-
+from cybulde.config_schemas import data_processing_config_schema, tokenizer_training_config_schema
 from cybulde.utils.io_utils import open_file
 
 
@@ -59,15 +55,16 @@ def load_pickle_config(config_path: str, config_name: str) -> Any:
         config = pickle.load(f)
     return config
 
+
 def setup_config() -> None:
     data_processing_config_schema.setup_config()
+    tokenizer_training_config_schema.setup_config()
 
 
 def setup_logger() -> None:
     with open("./cybulde/configs/hydra/job_logging/custom.yaml", "r") as stream:
         config = yaml.load(stream, Loader=yaml.FullLoader)
     logging.config.dictConfig(config)
-
 
 
 def config_args_parser() -> argparse.Namespace:
@@ -78,7 +75,6 @@ def config_args_parser() -> argparse.Namespace:
     parser.add_argument("--overrides", nargs="*", help="Hydra config overrides", default=[])
 
     return parser.parse_args()
-
 
 
 def compose_config(config_path: str, config_name: str, overrides: Optional[list[str]] = None) -> Any:
@@ -106,7 +102,7 @@ def save_config_as_pickle(config: Any, save_path: str) -> None:
     pickle.dump(config, bytes_io)
     with open_file(save_path, "wb") as f:
         f.write(bytes_io.getvalue())
-        
+
 
 def custom_instantiate(config: Any) -> Any:
     config_as_dict = asdict(config)

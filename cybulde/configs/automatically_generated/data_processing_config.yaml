@@ -67,37 +67,23 @@ dataset_cleaner_manager:
     re_tweet:
       _target_: cybulde.data_processing.dataset_cleaners.ReTweetDatasetCleaner
 dask_cluster:
-  _target_: dask_cloudprovider.gcp.GCPCluster
-  n_workers: 3
-  projectid: cyberbully-data-preparation
-  zone: asia-southeast1-a
-  network: default
-  network_projectid: cyberbully-data-preparation
-  machine_type: n1-standard-1
-  source_image: projects/ubuntu-os-cloud/global/images/ubuntu-minimal-2004-focal-v20220203
-  docker_image: asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation:69c6b49e-8405-409b-a6cb-c5d058739368
-  docker_args: '--log-driver=gcplogs
-
-    '
-  extra_bootstrap:
-  - gcloud auth configure-docker --quiet asia-southeast1-docker.pkg.dev
-  ngpus: 0
-  gpu_type: null
-  filesystem_size: 50
-  disk_type: pd-standard
-  on_host_maintenance: TERMINATE
-  worker_class: dask.distributed.Nanny
-  worker_options:
-    nthreads: 1
-  env_vars: {}
-  scheduler_options: {}
-  silence_logs: null
-  asynchronous: null
-  security: true
-  preemptible: false
-  debug: false
-  instance_labels: null
+  _target_: dask.distributed.LocalCluster
+  n_workers: 4
+  memory_limit: auto
+  processes: true
+  threads_per_worker: 1
+  scheduler_port: 8786
+  silence_logs: 30
+  host: null
+  dashboard_address: :8787
+  asynchronous: false
+  blocked_handlers: null
+  service_kwargs: null
+  security: null
+  protocol: null
+  interface: null
+  worker_class: null
 processed_data_save_dir: gs://cyberbully-bucket-3/data/processed/default_run
 run_tag: default_run
 docker_image_name: asia-southeast1-docker.pkg.dev/cyberbully-data-preparation/cybulde/cybulde-data-preparation
-docker_image_tag: 69c6b49e-8405-409b-a6cb-c5d058739368
+docker_image_tag: 3bf5cd03-1ca3-4968-a51e-be95d0157978
